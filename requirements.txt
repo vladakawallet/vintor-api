@@ -1,0 +1,5 @@
+paddleocr
+fastapi[uvicorn]
+redis
+rq
+fast-plate-ocr
