@@ -29,14 +29,14 @@ def setup_models_and_dependencies():
             "yolov5", 
             "custom", 
             path=os.path.join("models", "plate.pt"),
-            device="cpu", 
+            device="gpu", 
             source="local"
         )
         if yolo: log.info("[i] YOLO setup finished")
         else: log.info("[i] YOLO setup failed!")
 
         log.info("[i] plate_onnx setup begin")
-        plate_onnx = ONNXPlateRecognizer('european-plates-mobile-vit-v2-model', device='cpu')
+        plate_onnx = ONNXPlateRecognizer('european-plates-mobile-vit-v2-model', device='cuda')
         if plate_onnx: log.info("[i] plate_onnx setup finished")
         else: log.info("[i] plate_onnx setup failed!")
 
