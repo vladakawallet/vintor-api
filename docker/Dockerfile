@@ -1,14 +1,22 @@
-FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONBUFFERED=1
-ENV PYTHONDONTWRITEBYCODE=1
+ENV 
+
+
 
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    sudo add-apt-repository ppa:deadsnakes/ppa \
-    sudo apt install python3.12-full \
+    software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update \
+    && apt-get install -y \
+    python3.12-full \
+    python3.12-dev \
+    python3-pip \
+    python3-setuptools \
     git \ 
     wget \ 
     curl \ 
@@ -18,7 +26,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN ln -s /usr/bin/python3.12 /usr/bin/python
 
-RUN python -m pip install --upgrade pip
+RUN python3.12 -m ensurepip --upgrade
+
+RUN python3.12 -m pip install --upgrade pip
 
 RUN git clone https://github.com/ultralytics/yolov5.git yolov5
 RUN cd yolov5 && \
@@ -29,7 +39,7 @@ RUN python -m pip install paddlepaddle-gpu==3.0.0 -i https://www.paddlepaddle.or
 
 
 COPY requirements.txt . 
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . . 
 
