@@ -10,7 +10,7 @@ from celery import Celery
 
 log = setup_logger("worker", os.path.join("logs", "worker.log"))
 r = redis.Redis()
-celery_app = Celery("image_processor", broker="redis://localhost:6379")
+celery_app = Celery("image_processor", broker="redis://localhost:6379/0", backend="redis://localhost:6379/0")
 
 
 yolo = None
